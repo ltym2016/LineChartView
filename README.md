@@ -1,6 +1,8 @@
 # LineChartView
 自定义房价均价走势折线图
 
+![image](https://github.com/ltym2016/LineChartView/blob/master/1.png)
+
 ### 说明
 - 项目中Y轴上没有具体刻度显示，所以这里固定了最高点和最低点的高度
 - 中间数据根据差值计算均等分
