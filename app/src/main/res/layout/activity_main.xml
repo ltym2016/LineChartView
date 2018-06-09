@@ -9,6 +9,9 @@
     <com.samluys.linechartdemo.LineChartView
         android:id="@+id/line_chart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:lc_main_color="#D61939"
+        app:lc_out_circle_color="#F7D1D7"
+        app:lc_yaxis_num="8"/>
 
 </LinearLayout>

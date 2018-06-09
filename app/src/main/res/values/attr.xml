@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LineChartView">
+        <attr name="lc_yaxis_num" format="integer" />
+        <attr name="lc_main_color" format="color" />
+        <attr name="lc_out_circle_color" format="color"/>
+    </declare-styleable>
+</resources>

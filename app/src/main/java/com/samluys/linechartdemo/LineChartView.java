@@ -1,6 +1,7 @@
 package com.samluys.linechartdemo;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Pair;
+import android.util.TypedValue;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -64,12 +66,23 @@ public class LineChartView extends View {
     /**
      * 线条和节点内圆的颜色
      */
-    private int mLineColor = Color.parseColor("#D61939");
+    private int mMainColor;
+
+    /**
+     * 节点外圆的颜色
+     */
+    private int mOutCircleColor;
+
 
     /**
      * 固定最高点在Y轴上的高度
      */
     private int mPeakHeight = 60;
+
+    /**
+     * Y轴的数量
+     */
+    private int mYAxisNum = 6;
 
     /**
      * x轴数据
@@ -99,6 +112,22 @@ public class LineChartView extends View {
 
     public LineChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        TypedArray a = null;
+
+        try {
+            a = context.obtainStyledAttributes(attrs, R.styleable.LineChartView);
+            mMainColor = a.getColor(R.styleable.LineChartView_lc_main_color, Color.parseColor("#D61939"));
+            mYAxisNum = a.getInteger(R.styleable.LineChartView_lc_yaxis_num, 6);
+            mOutCircleColor = a.getColor(R.styleable.LineChartView_lc_out_circle_color,Color.parseColor("#F7D1D7"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (a != null) {
+                a.recycle();
+            }
+        }
+
         init();
 
     }
@@ -145,7 +174,7 @@ public class LineChartView extends View {
      */
     private void initBrokenLine() {
         mBrokenLinePaint = new Paint();
-        mBrokenLinePaint.setColor(mLineColor);
+        mBrokenLinePaint.setColor(mMainColor);
         mBrokenLinePaint.setStrokeWidth(Utils.dp2px(getContext(), 2));
         mBrokenLinePaint.setStyle(Paint.Style.STROKE);
         mBrokenLinePaint.setAntiAlias(true);
@@ -156,7 +185,7 @@ public class LineChartView extends View {
      */
     private void initInCircle() {
         mInCirclePaint = new Paint();
-        mInCirclePaint.setColor(mLineColor);
+        mInCirclePaint.setColor(mMainColor);
         mInCirclePaint.setStyle(Paint.Style.FILL);
         mInCirclePaint.setAntiAlias(true);
     }
@@ -166,7 +195,7 @@ public class LineChartView extends View {
      */
     private void initOutCircle() {
         mOutCirclePaint = new Paint();
-        mOutCirclePaint.setColor(Color.parseColor("#F7D1D7"));
+        mOutCirclePaint.setColor(mOutCircleColor);
         mOutCirclePaint.setStyle(Paint.Style.FILL);
         mOutCirclePaint.setAntiAlias(true);
     }
@@ -175,7 +204,7 @@ public class LineChartView extends View {
      * 获取间隔距离
      */
     private void getSpaceLength() {
-        mSpaceLength = (mScreenWidth - mSideLength*2)/5;
+        mSpaceLength = (mScreenWidth - mSideLength*2)/(mYAxisNum - 1);
     }
 
     /**
@@ -313,6 +342,11 @@ public class LineChartView extends View {
      * @param yAxis
      */
     public void setData(List<String> xAxis, List<String> yAxis) {
+
+        if (xAxis.size() !=  mYAxisNum) {
+            throw new IllegalArgumentException("The X-axis number is not the same as Y-axis number");
+        }
+
         mXAxis.clear();
         mXAxis.addAll(xAxis);
         mYAxis.clear();

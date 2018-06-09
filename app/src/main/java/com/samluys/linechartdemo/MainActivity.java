@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         xAixs.add("18-01");
         xAixs.add("18-02");
         xAixs.add("18-03");
+        xAixs.add("18-04");
+        xAixs.add("18-05");
         // y轴上的数据
         List<String> yAixs = new ArrayList<>();
         yAixs.add("12000");
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         yAixs.add("14090");
         yAixs.add("14400");
         yAixs.add("14800");
+        yAixs.add("14900");
+        yAixs.add("13800");
 
         line_chart.setData(xAixs,yAixs);
 
